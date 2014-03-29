@@ -1,4 +1,5 @@
-forge-samples
-=============
+Forge Sample Scripts
+====================
 
-Samples created using JBoss Forge
+- Basic Java EE Application
+
