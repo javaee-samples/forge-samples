@@ -10,7 +10,7 @@ This section of the script creates a new Java EE app from scratch using Forge, a
 
     project-new --named javaee-forge --topLevelPackage org.forge.samples.javaee
 
-2. Add some Java EE capabilities - Servlet, CDI, JPA, Bean Validation, JAX-RS
+2. Add some Java EE capabilities:
 
     servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup;
     [javaee-forge]$ servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup;
@@ -22,7 +22,7 @@ This section of the script creates a new Java EE app from scratch using Forge, a
 +
 `faces-setup` is broken because of https://issues.jboss.org/browse/FORGE-1707.
 
-3. Now let's add some entities
+3. Add some entities:
 
     [javaee-forge]$ jpa-new-entity --named Author --targetPackage org.forge.samples.javaee.entities
     ***SUCCESS*** Entity org.forge.samples.javaee.entities.Author created
@@ -42,7 +42,7 @@ private Long id;
 private int version;
 ----
 +
-Let's add some fields to these entities
+Add some fields to these entities:
 
     [Book.java]$ jpa-new-field --named title --type String --length 30
     ***SUCCESS*** Field title created
@@ -57,7 +57,7 @@ There is no way to generate One-to-Many mapping and filed as https://issues.jbos
    @OneToMany
    private Collection<Attendee> speakers = new ArrayList<Attendee>();
 
-4. Now, we want to add some Bean Validation constraints.
+4. Add some Bean Validation constraints:
 
     [Book.java]$ constraint-add --onProperty title --constraint Max --value 30 
     ***SUCCESS*** Constraint Max successfully configured
@@ -68,37 +68,42 @@ There is no way to generate One-to-Many mapping and filed as https://issues.jbos
 +
 This is filed as https://issues.jboss.org/browse/FORGE-1706.
 
-6. Generate JSF scaffold endpoints for the entity.
+JSF Scaffold
+------------
+
+5. Generate JSF scaffold endpoints for the entity.
 
     [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Author 
     ***SUCCESS*** Scaffold was generated successfully.
     [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Book 
     ***SUCCESS*** Scaffold was generated successfully.
-
++
 This is broken because of https://issues.jboss.org/browse/FORGE-1707.
 
-7. Generate REST scaffold endpoints for the entity.
+REST Scaffold
+-------------
+
+6. Generate REST scaffold endpoints for the entity.
 
     [Author.java]$ rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Author  --packageName org.forge.samples.javaee.rest
 +
 This is broken because of https://issues.jboss.org/browse/FORGE-1708.
 
-8. Generate HTML5 scaffolding - How to install https://github.com/forge/angularjs-addon ?
+HTML5 Scaffold
+--------------
 
-7. Open up JAX-RS REST Web Services, and locate `GET /rest/session`. Right click on it, and choose *Run As -> Run On Server*. In the Web Service Tester, click the *Play* button, and show the result
-
-Add HTML5 Mobile view
----------------------
-
-1. Setup HTML5 scaffolding
+1. Generate HTML5 scaffolding - How to install https://github.com/forge/angularjs-addon ?
 
     scaffold-x setup --scaffoldType angularjs
 
-2. Generate the CRUD
+1. Open up JAX-RS REST Web Services, and locate `GET /rest/session`. Right click on it, and choose *Run As -> Run On Server*. In the Web Service Tester, click the *Play* button, and show the result
+
+1. Generate the CRUD
 
     scaffold-x from src/main/java/com/redhat/sessions/model/*
 
-Here is the complete script:
+Complete Script
+---------------
 
 [source,text]
 ----
