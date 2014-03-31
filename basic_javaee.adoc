@@ -12,15 +12,15 @@ This section of the script creates a new Java EE app from scratch using Forge, a
 
 2. Add some Java EE capabilities:
 
-    servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup;
-    [javaee-forge]$ servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup;
+    servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup
     ***SUCCESS*** Servlet API has been installed.
     [javaee-forge]$ ***SUCCESS*** CDI has been installed.
     [javaee-forge]$ ***SUCCESS*** Persistence (JPA) is installed.
     [javaee-forge]$ ***SUCCESS*** JAX-RS has been installed.
+    [javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
     [javaee-forge]$ ***SUCCESS*** Bean Validation is installed.
-+
-`faces-setup` is broken because of https://issues.jboss.org/browse/FORGE-1707.
+    [javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
+    [javaee-forge]$ ***SUCCESS*** EJB has been installed.
 
 3. Add some entities:
 
@@ -55,11 +55,14 @@ Add some fields to these entities:
 There is no way to generate One-to-Many mapping and filed as https://issues.jboss.org/browse/FORGE-1709.
 +
    @OneToMany
-   private Collection<Attendee> speakers = new ArrayList<Attendee>();
+   private Collection<Book> books = new ArrayList<Book>();
 
 4. Add some Bean Validation constraints:
 
-    [Book.java]$ constraint-add --onProperty title --constraint Max --value 30 
+    [Author.java]$ constraint-add --onProperty name --constraint Max --value 30
+    ***SUCCESS*** Constraint Max successfully configured
+    [Author.java]$ cd ../Book.java
+    [Book.java]$ constraint-add --onProperty title --constraint Max --value 30
     ***SUCCESS*** Constraint Max successfully configured
     [Book.java]$ constraint-add --onProperty isbn --constraint Max --value 15
     ***SUCCESS*** Constraint Max successfully configured
@@ -73,9 +76,9 @@ JSF Scaffold
 
 5. Generate JSF scaffold endpoints for the entity.
 
-    [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Author 
+    [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Author
     ***SUCCESS*** Scaffold was generated successfully.
-    [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Book 
+    [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Book
     ***SUCCESS*** Scaffold was generated successfully.
 +
 This is broken because of https://issues.jboss.org/browse/FORGE-1707.
