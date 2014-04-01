@@ -12,7 +12,7 @@ This section of the script creates a new Java EE app from scratch using Forge, a
 
 2. Add some Java EE capabilities:
 
-    servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup
+    servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup; scaffold-setup
     ***SUCCESS*** Servlet API has been installed.
     [javaee-forge]$ ***SUCCESS*** CDI has been installed.
     [javaee-forge]$ ***SUCCESS*** Persistence (JPA) is installed.
@@ -21,6 +21,7 @@ This section of the script creates a new Java EE app from scratch using Forge, a
     [javaee-forge]$ ***SUCCESS*** Bean Validation is installed.
     [javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
     [javaee-forge]$ ***SUCCESS*** EJB has been installed.
+    [javaee-forge]$ ***SUCCESS*** Scaffold was setup successfully.
 
 3. Add some entities:
 
@@ -44,28 +45,25 @@ private int version;
 +
 Add some fields to these entities:
 
-    [Book.java]$ jpa-new-field --named title --type String --length 30
+    [Book.java]$ jpa-new-field --named title --type String --length 100
     ***SUCCESS*** Field title created
-    [Book.java]$ jpa-new-field --named isbn --type String --length 15
+    [Book.java]$ jpa-new-field --named isbn --type String --length 30
     ***SUCCESS*** Field isbn created
     [Book.java]$ cd ../Author.java
-    [Author.java]$ jpa-new-field --named name --type java.lang.String --length 30
+    [Author.java]$ jpa-new-field --named name --type java.lang.String --length 50
     ***SUCCESS*** Field name created
-+
-There is no way to generate One-to-Many mapping and filed as https://issues.jboss.org/browse/FORGE-1709.
-+
-   @OneToMany
-   private Collection<Book> books = new ArrayList<Book>();
+    [Author.java]$ jpa-new-field --named books --type org.forge.samples.javaee.entities.Book --relationshipType One-to-Many 
+    ***SUCCESS*** Relationship One-to-Many created
 
 4. Add some Bean Validation constraints:
 
-    [Author.java]$ constraint-add --onProperty name --constraint Max --value 30
-    ***SUCCESS*** Constraint Max successfully configured
+    [Author.java]$ constraint-add --onProperty name --constraint Size --max 50
+    ***SUCCESS*** Constraint Size successfully configured
     [Author.java]$ cd ../Book.java
-    [Book.java]$ constraint-add --onProperty title --constraint Max --value 30
-    ***SUCCESS*** Constraint Max successfully configured
-    [Book.java]$ constraint-add --onProperty isbn --constraint Max --value 15
-    ***SUCCESS*** Constraint Max successfully configured
+    [Book.java]$ constraint-add --onProperty title --constraint Size --max 100
+    ***SUCCESS*** Constraint Size successfully configured
+    [Book.java]$ constraint-add --onProperty isbn --constraint Size --max 30
+    ***SUCCESS*** Constraint Size successfully configured
     [Book.java]$ constraint-add --onProperty isbn --constraint Pattern --regexp ^\d{9}[\d|X]$
     ***ERROR*** org.eclipse.jdt.core.dom.MarkerAnnotation cannot be cast to org.eclipse.jdt.core.dom.NormalAnnotation
 +
@@ -80,8 +78,6 @@ JSF Scaffold
     ***SUCCESS*** Scaffold was generated successfully.
     [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Book
     ***SUCCESS*** Scaffold was generated successfully.
-+
-This is broken because of https://issues.jboss.org/browse/FORGE-1707.
 
 REST Scaffold
 -------------
@@ -111,11 +107,16 @@ Complete Script
 [source,text]
 ----
 project-new --named javaee-forge --topLevelPackage org.forge.samples.javaee
-servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup;
+servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup; scaffold-setup
 jpa-new-entity --named Author --targetPackage org.forge.samples.javaee.entities
 jpa-new-entity --named Book --targetPackage org.forge.samples.javaee.entities
-jpa-new-field --named title --type String --length 30
-jpa-new-field --named isbn --type String --length 15
-cd ../Author.java
-jpa-new-field --named name --type java.lang.String --length 30
+jpa-new-field --targetEntity org.forge.samples.javaee.entities.Author --named name --type java.lang.String --length 50
+jpa-new-field --targetEntity org.forge.samples.javaee.entities.Book --named title --type String --length 100
+jpa-new-field --targetEntity org.forge.samples.javaee.entities.Book --named isbn --type String --length 30
+constraint-add --javaClass org.forge.samples.javaee.entities.Author --onProperty name --constraint Size --max 50
+constraint-add --javaClass org.forge.samples.javaee.entities.Book --onProperty title --constraint Size --max 100
+constraint-add --javaClass org.forge.samples.javaee.entities.Book --onProperty isbn --constraint Size --max 30
+scaffold-generate --targets org.forge.samples.javaee.entities.Author
+scaffold-generate --targets org.forge.samples.javaee.entities.Book
 ----
+
