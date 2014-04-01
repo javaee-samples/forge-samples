@@ -1,0 +1,12 @@
+project-new --named basic-javaee-forge --topLevelPackage org.forge.samples.javaee
+servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup; scaffold-setup
+jpa-new-entity --named Author --targetPackage org.forge.samples.javaee.entities
+jpa-new-entity --named Book --targetPackage org.forge.samples.javaee.entities
+jpa-new-field --targetEntity org.forge.samples.javaee.entities.Author --named name --type java.lang.String --length 50
+jpa-new-field --targetEntity org.forge.samples.javaee.entities.Book --named title --type String --length 100
+jpa-new-field --targetEntity org.forge.samples.javaee.entities.Book --named isbn --type String --length 30
+constraint-add --javaClass org.forge.samples.javaee.entities.Author --onProperty name --constraint Size --max 50
+constraint-add --javaClass org.forge.samples.javaee.entities.Book --onProperty title --constraint Size --max 100
+constraint-add --javaClass org.forge.samples.javaee.entities.Book --onProperty isbn --constraint Size --max 30
+scaffold-generate --targets org.forge.samples.javaee.entities.Author
+scaffold-generate --targets org.forge.samples.javaee.entities.Book

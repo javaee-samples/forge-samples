@@ -8,24 +8,24 @@ This section of the script creates a new Java EE app from scratch using Forge, a
 
 1. In the Forge console, create a new project
 
-    project-new --named javaee-forge --topLevelPackage org.forge.samples.javaee
+    project-new --named basic-javaee-forge --topLevelPackage org.forge.samples.javaee
 
 2. Add some Java EE capabilities:
 
     servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup; scaffold-setup
     ***SUCCESS*** Servlet API has been installed.
-    [javaee-forge]$ ***SUCCESS*** CDI has been installed.
-    [javaee-forge]$ ***SUCCESS*** Persistence (JPA) is installed.
-    [javaee-forge]$ ***SUCCESS*** JAX-RS has been installed.
-    [javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
-    [javaee-forge]$ ***SUCCESS*** Bean Validation is installed.
-    [javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
-    [javaee-forge]$ ***SUCCESS*** EJB has been installed.
-    [javaee-forge]$ ***SUCCESS*** Scaffold was setup successfully.
+    [basic-javaee-forge]$ ***SUCCESS*** CDI has been installed.
+    [basic-javaee-forge]$ ***SUCCESS*** Persistence (JPA) is installed.
+    [basic-javaee-forge]$ ***SUCCESS*** JAX-RS has been installed.
+    [basic-javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
+    [basic-javaee-forge]$ ***SUCCESS*** Bean Validation is installed.
+    [basic-javaee-forge]$ ***SUCCESS*** JavaServer Faces has been installed.
+    [basic-javaee-forge]$ ***SUCCESS*** EJB has been installed.
+    [basic-javaee-forge]$ ***SUCCESS*** Scaffold was setup successfully.
 
 3. Add some entities:
 
-    [javaee-forge]$ jpa-new-entity --named Author --targetPackage org.forge.samples.javaee.entities
+    [basic-javaee-forge]$ jpa-new-entity --named Author --targetPackage org.forge.samples.javaee.entities
     ***SUCCESS*** Entity org.forge.samples.javaee.entities.Author created
     [Author.java]$ jpa-new-entity --named Book --targetPackage org.forge.samples.javaee.entities
     ***SUCCESS*** Entity org.forge.samples.javaee.entities.Book created
@@ -106,7 +106,7 @@ Complete Script
 
 [source,text]
 ----
-project-new --named javaee-forge --topLevelPackage org.forge.samples.javaee
+project-new --named basic-javaee-forge --topLevelPackage org.forge.samples.javaee
 servlet-setup; cdi-setup; jpa-setup --container JBOSS_EAP6; rest-setup; constraint-setup; faces-setup; ejb-setup; scaffold-setup
 jpa-new-entity --named Author --targetPackage org.forge.samples.javaee.entities
 jpa-new-entity --named Book --targetPackage org.forge.samples.javaee.entities
