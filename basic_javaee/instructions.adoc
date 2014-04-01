@@ -79,16 +79,31 @@ JSF Scaffold
     [Book.java]$ scaffold-generate --targets org.forge.samples.javaee.entities.Book
     ***SUCCESS*** Scaffold was generated successfully.
 
+5. Package and deploy the application as:
+
+    mvn clean package
+    jboss-cli.sh -c --command="deploy /Users/arungupta/workspaces/forge-samples/basic_javaee/basic-javaee-forge/target/basic-javaee-forge-1.0.0-SNAPSHOT.war --force"
+
+5. Access the application at http://localhost:8080/basic-javaee-forge-1.0.0-SNAPSHOT/faces/index.xhtml.
+
 REST Scaffold
 -------------
 
 6. Generate REST scaffold endpoints for the entity.
 
-    [Author.java]$ rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Author  --packageName org.forge.samples.javaee.rest
-+
-This is broken because of https://issues.jboss.org/browse/FORGE-1708.
+    [Author.java]$ rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Author --packageName org.forge.samples.javaee.rest
+    ***SUCCESS*** Endpoint created
+    [Author.java]$ rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Book --packageName org.forge.samples.javaee.rest
+    ***SUCCESS*** Endpoint created
 
-HTML5 Scaffold
+6. Package and deploy the application as:
+
+    mvn clean package
+    jboss-cli.sh -c --command="deploy /Users/arungupta/workspaces/forge-samples/basic_javaee/basic-javaee-forge/target/basic-javaee-forge-1.0.0-SNAPSHOT.war --force"
+
+6. Access the endpoints at http://localhost:8080/basic-javaee-forge-1.0.0-SNAPSHOT/rest/authors and http://localhost:8080/basic-javaee-forge-1.0.0-SNAPSHOT/rest/books.
+
+TODO: HTML5 Scaffold
 --------------
 
 1. Generate HTML5 scaffolding - How to install https://github.com/forge/angularjs-addon ?
@@ -118,5 +133,7 @@ constraint-add --javaClass org.forge.samples.javaee.entities.Book --onProperty t
 constraint-add --javaClass org.forge.samples.javaee.entities.Book --onProperty isbn --constraint Size --max 30
 scaffold-generate --targets org.forge.samples.javaee.entities.Author
 scaffold-generate --targets org.forge.samples.javaee.entities.Book
+rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Book --packageName org.forge.samples.javaee.rest
+rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Author --packageName org.forge.samples.javaee.rest
 ----
 
