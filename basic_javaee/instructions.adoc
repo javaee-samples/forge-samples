@@ -103,7 +103,7 @@ REST Scaffold
 
 6. Access the endpoints at http://localhost:8080/basic-javaee-forge-1.0.0-SNAPSHOT/rest/authors and http://localhost:8080/basic-javaee-forge-1.0.0-SNAPSHOT/rest/books.
 
-TODO: HTML5 Scaffold
+HTML5 Scaffold (TODO)
 --------------
 
 1. Generate HTML5 scaffolding - How to install https://github.com/forge/angularjs-addon ?
