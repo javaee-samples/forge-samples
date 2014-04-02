@@ -1,0 +1,314 @@
+Basic Java EE Application using Forge 1.4.4
+===========================================
+
+Create an app
+-------------
+
+This section of the script creates a new Java EE app from scratch using Forge, adds the key Java EE 6 technologies. It adds some pre-canned entities, and scaffolds JAX-RS endpoints.
+
+1. In the Forge console, create a new project
++
+[source,text]
+----
+[no project] 1.4.4 $ new-project --named basic-javaee-forge --topLevelPackage org.forge.samples.javaee --type war
+ ? Use [/Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge] as project directory? [Y/n] y
+***SUCCESS*** Created project [basic-javaee-forge] in new working directory [/Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge]
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/test/java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/resources
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/test/resources
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee
+----
+
+2. Add some Java EE capabilities:
++
+[source, text]
+----
+[basic-javaee-forge] basic-javaee-forge $ servlet setup 
+Use which version of 'jboss-javaee-6.0' ?
+
+  1 - [org.jboss.spec:jboss-javaee-6.0:pom::1.0.0.Beta4]
+  2 - [org.jboss.spec:jboss-javaee-6.0:pom::1.0.0.Beta5]
+  3 - [org.jboss.spec:jboss-javaee-6.0:pom::1.0.0.Beta6]
+  4 - [org.jboss.spec:jboss-javaee-6.0:pom::1.0.0.Beta7]
+  5 - [org.jboss.spec:jboss-javaee-6.0:pom::1.0.0.CR1]
+  6 - [org.jboss.spec:jboss-javaee-6.0:pom::1.0.0.Final]
+  7 - [org.jboss.spec:jboss-javaee-6.0:pom::2.0.0.Beta1]
+  8 - [org.jboss.spec:jboss-javaee-6.0:pom::2.0.0.CR1]
+  9 - [org.jboss.spec:jboss-javaee-6.0:pom::2.0.0.Final]
+  10 - [org.jboss.spec:jboss-javaee-6.0:pom::2.1.0.Beta1]
+  11 - [org.jboss.spec:jboss-javaee-6.0:pom::3.0.0.Beta1]
+  12 - [org.jboss.spec:jboss-javaee-6.0:pom::3.0.0.Final]
+  13 - [org.jboss.spec:jboss-javaee-6.0:pom::3.0.1.Final]
+  14 - [org.jboss.spec:jboss-javaee-6.0:pom::3.0.2.Final]*
+
+ ? Choose an option by typing the number of the selection [*-default]  [0] 
+***SUCCESS*** Installed [forge.spec.servlet] successfully.
+***SUCCESS*** Servlet is installed.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+----
++
+[source, text]
+----
+[basic-javaee-forge] basic-javaee-forge $ beans setup 
+***SUCCESS*** Installed [forge.spec.cdi] successfully.
+***SUCCESS*** Beans (CDI) is installed.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/beans.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+----
++
+[source, text]
+----
+[basic-javaee-forge] basic-javaee-forge $ persistence setup --provider HIBERNATE --container JBOSS_EAP6
+***SUCCESS*** Installed [forge.spec.jpa] successfully.
+***INFO*** Setting transaction-type="JTA"
+***INFO*** Using example data source [java:jboss/datasources/ExampleDS]
+ ? Do you want to install a JPA 2 metamodel generator? [y/N] y
+Use which version of 'maven-processor-plugin' ?
+
+  1 - [org.bsc.maven:maven-processor-plugin:::2.0.2]
+  2 - [org.bsc.maven:maven-processor-plugin:::2.0.3]
+  3 - [org.bsc.maven:maven-processor-plugin:::2.0.4]
+  4 - [org.bsc.maven:maven-processor-plugin:::2.0.5]
+  5 - [org.bsc.maven:maven-processor-plugin:::2.0.6]
+  6 - [org.bsc.maven:maven-processor-plugin:::2.0.7]
+  7 - [org.bsc.maven:maven-processor-plugin:::2.0.8]
+  8 - [org.bsc.maven:maven-processor-plugin:::2.1.0-beta1]
+  9 - [org.bsc.maven:maven-processor-plugin:::2.1.0]
+  10 - [org.bsc.maven:maven-processor-plugin:::2.1.1]
+  11 - [org.bsc.maven:maven-processor-plugin:::2.2.0]
+  12 - [org.bsc.maven:maven-processor-plugin:::2.2.1]
+  13 - [org.bsc.maven:maven-processor-plugin:::2.2.2]
+  14 - [org.bsc.maven:maven-processor-plugin:::2.2.3]
+  15 - [org.bsc.maven:maven-processor-plugin:::2.2.4]*
+
+ ? Choose an option by typing the number of the selection [*-default]  [0] 
+Use which version of 'hibernate-jpamodelgen' ?
+
+  1 - [org.hibernate:hibernate-jpamodelgen:::1.0.0-Beta-2]
+  2 - [org.hibernate:hibernate-jpamodelgen:::1.0.0-Beta-3]
+  3 - [org.hibernate:hibernate-jpamodelgen:::1.0.0-CR-1]
+  4 - [org.hibernate:hibernate-jpamodelgen:::1.0.0.Beta1]
+  5 - [org.hibernate:hibernate-jpamodelgen:::1.0.0.Final]
+  6 - [org.hibernate:hibernate-jpamodelgen:::1.1.0.CR1]
+  7 - [org.hibernate:hibernate-jpamodelgen:::1.1.0.Final]
+  8 - [org.hibernate:hibernate-jpamodelgen:::1.1.1.Final]
+  9 - [org.hibernate:hibernate-jpamodelgen:::1.2.0.CR1]
+  10 - [org.hibernate:hibernate-jpamodelgen:::1.2.0.Final]
+  11 - [org.hibernate:hibernate-jpamodelgen:::1.3.0.Final]
+  12 - [org.hibernate:hibernate-jpamodelgen:::4.3.0.CR1]
+  13 - [org.hibernate:hibernate-jpamodelgen:::4.3.0.CR2]
+  14 - [org.hibernate:hibernate-jpamodelgen:::4.3.0.Final]
+  15 - [org.hibernate:hibernate-jpamodelgen:::4.3.1.Final]
+  16 - [org.hibernate:hibernate-jpamodelgen:::4.3.2.Final]
+  17 - [org.hibernate:hibernate-jpamodelgen:::4.3.3.Final]
+  18 - [org.hibernate:hibernate-jpamodelgen:::4.3.4.Final]*
+
+ ? Choose an option by typing the number of the selection [*-default]  [0] 
+***SUCCESS*** Installed [forge.spec.jpa.metamodel] successfully.
+ ? The JPA provider [HIBERNATE], also supplies extended APIs. Install these as well? [y/N] 
+***SUCCESS*** Persistence (JPA) is installed.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/resources/META-INF/persistence.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+----
++
+[source, text]
+----
+[basic-javaee-forge] basic-javaee-forge $ validation setup 
+***SUCCESS*** Installed [forge.spec.validation] successfully.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/resources/META-INF/validation.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+----
++
+[source, text]
+----
+[basic-javaee-forge] basic-javaee-forge $ faces setup 
+***SUCCESS*** Installed [forge.spec.jsf.api] successfully.
+ ? Do you also want to install the Faces servlet and mapping? [y/N] 
+***SUCCESS*** JavaServer Faces is installed.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/faces-config.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/web.xml
+----
++
+REST setup is broken because of https://issues.jboss.org/browse/FORGE-1723.
++
+[source, text]
+----
+[basic-javaee-forge] basic-javaee-forge $ rest setup
+ ? What root path do you want to use for your resources? [/rest] 
+***SUCCESS*** Installed [forge.spec.jaxrs.webxml] successfully.
+***SUCCESS*** Installed [forge.spec.jaxrs] successfully.
+***SUCCESS*** Rest Web Services (JAX-RS) is installed.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/web.xml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+----
++
+[source, text]
+----
+-sic-javaee-forge] basic-javaee-forge $ ejb setup 
+***SUCCESS*** Installed [forge.spec.ejb] successfully.
+***SUCCESS*** Enterprise Java Beans (EJB) is installed.
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/pom.xml
+----
+
+3. Add some entities:
++
+[source, text]
+----
+[javaee-forge] javaee-forge $ entity --named Author --package org.forge.samples.javaee.entities
+Created @Entity [org.forge.samples.javaee.entities.Author]
+Picked up type <JavaResource>: org.forge.samples.javaee.entities.Author
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/javaee-forge/src/main/java/org/forge/samples/javaee/entities/Author.java
+[javaee-forge] Author.java $ entity --named Book --package org.forge.samples.javaee.entities
+Created @Entity [org.forge.samples.javaee.entities.Book]
+Picked up type <JavaResource>: org.forge.samples.javaee.entities.Book
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/javaee-forge/src/main/java/org/forge/samples/javaee/entities/Book.java
+----
+
+4. Each entity is generated with the following fields:
++
+[source,java]
+----
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+@Column(name = "id", updatable = false, nullable = false)
+private Long id;
+@Version
+@Column(name = "version")
+private int version;
+----
++
+Add some fields to these entities:
++
+[source,text]
+----
+[basic-javaee-forge] Book.java $ field string --named isbn --length 30
+Added field to org.forge.samples.javaee.entities.Book: @Column private String isbn;
+
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/entities/Book.java
+[basic-javaee-forge] Book.java $ cd ../Author.java
+[basic-javaee-forge] Author.java $ field string --named name --length 50
+Added field to org.forge.samples.javaee.entities.Author: @Column private String name;
+
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/entities/Author.java
+[basic-javaee-forge] Author.java $ field oneToMany --named books --fieldType org.forge.samples.javaee.entities.Book.java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/entities/Author.java
+----
+
+4. Add some Bean Validation constraints:
++
+[source,text]
+----
+[basic-javaee-forge] Author.java $ constraint Size --onProperty name --max 50
+Constraint Size has been successfully added on property named 'name'
+
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/entities/Author.java
+[basic-javaee-forge] Author.java $ cd ../Book.java
+[basic-javaee-forge] Book.java $ constraint Size --onProperty title --max 100
+Constraint Size has been successfully added on property named 'title'
+
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/entities/Book.java
+[basic-javaee-forge] Book.java $ constraint Size --onProperty isbn --max 30
+Constraint Size has been successfully added on property named 'isbn'
+
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/entities/Book.java
+[basic-javaee-forge] Book.java $ constraint Pattern --onProperty isbn --regexp "^\d{9}[\d|X]$"
+***ERROR*** Exception encountered: org.eclipse.jdt.core.dom.MarkerAnnotation cannot be cast to org.eclipse.jdt.core.dom.NormalAnnotation (type "set VERBOSE true" to enable stack traces)
+----
++
+This is filed as https://issues.jboss.org/browse/FORGE-1722.
+
+JSF Scaffold
+------------
+
+5. Generate JSF scaffold endpoints for the entity.
++
+[source, text]
+----
+[basic-javaee-forge] entities $ scaffold setup 
+ ? No scaffold type was selected, use default [JavaServer Faces]? [Y/n] 
+ ? Create scaffold in which sub-directory of web-root? (e.g. http://localhost:8080/basic-javaee-forge/DIR) [/] 
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/scaffold/paginator.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/scaffold/pageTemplate.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/index.html
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/index.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/error.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/add.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/bootstrap.css
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/false.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/favicon.ico
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/forge-logo.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/forge-style.css
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/remove.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/search.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/true.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/jboss-community.png
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/web.xml
+***ERROR*** Exception encountered: Index: 1, Size: 0 (type "set VERBOSE true" to enable stack traces)
+[basic-javaee-forge] entities $ cd Author.java
+[basic-javaee-forge] Author.java $ scaffold from-entity 
+***INFO*** Using currently installed scaffold [faces]
+ ? [/Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/scaffold/pageTemplate.xhtml] File exists, overwrite? [Y/n] 
+***SUCCESS*** Generated UI for [org.forge.samples.javaee.entities.Author]
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/view/AuthorBean.java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/author/create.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/author/view.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/author/search.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/scaffold/pageTemplate.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/view/ViewUtils.java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/classes/META-INF/forge.taglib.xml
+[basic-javaee-forge] Author.java $ cd ../Book.java
+[basic-javaee-forge] Book.java $ scaffold from-entity 
+***INFO*** Using currently installed scaffold [faces]
+ ? [/Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/scaffold/pageTemplate.xhtml] File exists, overwrite? [Y/n] 
+***SUCCESS*** Generated UI for [org.forge.samples.javaee.entities.Book]
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/view/BookBean.java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/book/create.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/book/view.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/book/search.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/resources/scaffold/pageTemplate.xhtml
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/java/org/forge/samples/javaee/view/ViewUtils.java
+Wrote /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/src/main/webapp/WEB-INF/classes/META-INF/forge.taglib.xml
+[basic-javaee-forge] Book.java $
+----
+
+5. Package and deploy the application as:
+
+    mvn clean package
+    jboss-cli.sh -c --command="deploy /Users/arungupta/workspaces/forge-samples/1.4.4/basic_javaee/basic-javaee-forge/target/basic-javaee-forge-1.0.0-SNAPSHOT.war --force"
+
+5. Access the application at http://localhost:8080/basic-javaee-forge-1.0.0-SNAPSHOT/faces/index.xhtml.
+
+REST Scaffold (TODO)
+--------------------
+
+6. Generate REST scaffold endpoints for the entity.
+
+    [Author.java]$ rest-generate-endpoints-from-entities --targets org.forge.samples.javaee.entities.Author  --packageName org.forge.samples.javaee.rest
++
+This is broken because of https://issues.jboss.org/browse/FORGE-1708.
+
+HTML5 Scaffold (TODO)
+---------------------
+
+1. Generate HTML5 scaffolding - How to install https://github.com/forge/angularjs-addon ?
+
+    scaffold-x setup --scaffoldType angularjs
+
+1. Open up JAX-RS REST Web Services, and locate `GET /rest/session`. Right click on it, and choose *Run As -> Run On Server*. In the Web Service Tester, click the *Play* button, and show the result
+
+1. Generate the CRUD
+
+    scaffold-x from src/main/java/com/redhat/sessions/model/*
+
+Complete Script (TODO)
+----------------------
+
+[source,text]
+----
+new-project --named basic-javaee-forge --topLevelPackage org.forge.samples.javaee --type war
+----
